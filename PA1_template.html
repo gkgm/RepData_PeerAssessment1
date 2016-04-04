@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Data don\&#39;92t appear to be significant different because imputation uses mean for that particular day but steps are NA for that entire day.\</title>
+<title>Reproducible Research: Peer Assessment 1</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -163,125 +163,125 @@ hr {
 </head>
 
 <body>
-<p>{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red38\green38\blue38;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww25400\viewh13540\viewkind0
-\deftab720
-\pard\pardeftab720\sl640\sa320</p>
+<h1>Reproducible Research: Peer Assessment 1</h1>
 
-<p>\f0\b\fs30 \cf2 Reproducible Research: Peer Assessment 1
-\f1\fs24 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
-\cf0 Basic settings\</p>
+<h1>Basic settings</h1>
 
-<p>\b0 \
-echo = TRUE  # Always make code visible\
-options(scipen = 1)  # Turn off scientific notations for numbers\</p>
+<p>echo = TRUE  # Always make code visible
+options(scipen = 1)  # Turn off scientific notations for numbers</p>
 
-<p>\b \
-Loading and preprocessing the data\</p>
+<h1>Loading and preprocessing the data</h1>
 
-<p>\b0 \
-if (!file.exists(&ldquo;activity.csv&rdquo;)) {\
-  unzip(&ldquo;activity.zip&rdquo;)\
-}\
-activity &lt;- read.csv(&ldquo;activity.csv&rdquo;, colClass=c(&#39;integer&#39;, &#39;Date&#39;, &#39;integer&#39;))\
-\</p>
+<p>if (!file.exists(&ldquo;activity.csv&rdquo;)) {
+  unzip(&ldquo;activity.zip&rdquo;)
+}
+activity &lt;- read.csv(&ldquo;activity.csv&rdquo;, colClass=c(&#39;integer&#39;, &#39;Date&#39;, &#39;integer&#39;))</p>
 
-<p>\b What is mean total number of steps taken per day?
-\b0 \
-1. The total number of steps taken per day.\
-\
-steps.date &lt;- aggregate(steps ~ date, activity, sum)\
-head(steps.date)\
-\
-2. Histogram of the total number of steps taken each day.\
-\
-barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), \
-        xlab=&ldquo;date&rdquo;, ylab=&ldquo;sum(steps)&rdquo;,)\
-\
-3.1. Mean of total number of steps taken per day\
-\
-mean(steps.date$steps)\
-\
-3.2. Median of total number of steps taken per day\
-\
-median(steps.date$steps)\
-\</p>
+<h1>What is mean total number of steps taken per day?</h1>
 
-<p>\b What is the average daily activity pattern?
-\b0 \
-1. Time series plot of the 5-minute interval and average number of steps taken averaged across all days\
-\
-steps.interval &lt;- aggregate(steps ~ interval, activity, mean)\
-plot(steps.interval, type=&#39;l&#39;)\
-\
-2.  The 5-minute interval contains the maximum number of steps\
-\
-steps.interval$interval[which.max(steps.interval$steps)]\
-\</p>
+<ol>
+<li>The total number of steps taken per day.</li>
+</ol>
 
-<p>\b Imputing missing values
-\b0 \
-1. The total number of missing values in the dataset is\
-\
-sum(is.na(activity$steps))\
-\
-2. The strategy for filling in all of the missing values in the dataset is to use mean of the day. \
-3. Create a new dataset that is equal to the original dataset but with the missing data filled in.\
-\
-activity.clean &lt;- merge(activity, steps.date, by=&ldquo;date&rdquo;, suffixes=c(&ldquo;&rdquo;, &ldquo;.mean&rdquo;))\
-nas &lt;- is.na(activity.clean$steps)\
-activity.clean$steps[nas] &lt;- activity.clean$steps.mean[nas]\
-activity.clean &lt;- activity.clean[, c(1:3)]\
-head(activity.clean)\
-\
-4. Histogram of the total number of steps taken each day\
-\
-steps.date &lt;- aggregate(steps ~ date, activity.clean, sum)\
-barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), \
-        xlab=&ldquo;date&rdquo;, ylab=&ldquo;sum(steps)&rdquo;,)\
-\
-4.1. Mean of total number of steps taken per day\
-\
-mean(steps.date$steps)\
-\
-4.2. Median of total number of steps taken per day\
-\
-median(steps.date$steps)\
-\</p>
+<p>steps.date &lt;- aggregate(steps ~ date, activity, sum)
+head(steps.date)</p>
 
-<h1>Data don\&#39;92t appear to be significant different because imputation uses mean for that particular day but steps are NA for that entire day.\</h1>
+<ol>
+<li>Histogram of the total number of steps taken each day.</li>
+</ol>
 
-<p>\</p>
+<p>barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), 
+        xlab=&ldquo;Date&rdquo;, ylab=&ldquo;No of Steps Per Day&rdquo;,)</p>
 
-<p>\b Are there differences in activity patterns between weekdays and weekends?
-\b0 \
-1. Add new factor variable dayType with 2 levels \&#39;96 \&#39;93weekday\&#39;94 and \&#39;93weekend\&#39;94\
-\
-dayType &lt;- function(dates) {\
-  f &lt;- function(date) {\
-    if (weekdays(date) %in% c(&ldquo;Saturday&rdquo;, &ldquo;Sunday&rdquo;)) {\
-      &ldquo;weekend&rdquo;\
-    }\
-    else {\
-      &ldquo;weekday&rdquo;\
-    }\
-  }\
-  sapply(dates, f)\
-}\
-\
-activity$dayType &lt;- as.factor(dayType(activity$date))\
-str(activity)\
-\
-2. Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekdays and weekends\
-\
-library(lattice)\
-\
-steps.interval &lt;- aggregate(steps ~ interval + dayType, activity, mean)\
-xyplot(steps ~ interval | dayType, data=steps.interval, layout=c(2,1), type=&#39;l&#39;)\
+<p>3.1. Mean of total number of steps taken per day</p>
+
+<p>mean(steps.date$steps)</p>
+
+<p>3.2. Median of total number of steps taken per day</p>
+
+<p>median(steps.date$steps)</p>
+
+<h1>What is the average daily activity pattern?</h1>
+
+<ol>
+<li>Time series plot of the 5-minute interval and average number of steps taken averaged across all days</li>
+</ol>
+
+<p>steps.interval &lt;- aggregate(steps ~ interval, activity, mean)
+plot(steps.interval, type=&#39;l&#39;)</p>
+
+<ol>
+<li> The 5-minute interval contains the maximum number of steps</li>
+</ol>
+
+<p>steps.interval$interval[which.max(steps.interval$steps)]</p>
+
+<h1>Imputing missing values</h1>
+
+<ol>
+<li>The total number of missing values in the dataset is</li>
+</ol>
+
+<p>sum(is.na(activity$steps))</p>
+
+<ol>
+<li>The strategy for filling in all of the missing values in the dataset is to use mean of the day. </li>
+<li>Create a new dataset that is equal to the original dataset but with the missing data filled in.</li>
+</ol>
+
+<p>activity.clean &lt;- merge(activity, steps.date, by=&ldquo;date&rdquo;, suffixes=c(&ldquo;&rdquo;, &ldquo;.mean&rdquo;))
+nas &lt;- is.na(activity.clean$steps)
+activity.clean$steps[nas] &lt;- activity.clean$steps.mean[nas]
+activity.clean &lt;- activity.clean[, c(1:3)]
+head(activity.clean)</p>
+
+<ol>
+<li>Histogram of the total number of steps taken each day</li>
+</ol>
+
+<p>steps.date &lt;- aggregate(steps ~ date, activity.clean, sum)
+barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), 
+        xlab=&ldquo;date&rdquo;, ylab=&ldquo;Steps Per Day with missing data&rdquo;,)</p>
+
+<p>4.1. Mean of total number of steps taken per day</p>
+
+<p>mean(steps.date$steps)</p>
+
+<p>4.2. Median of total number of steps taken per day</p>
+
+<p>median(steps.date$steps)</p>
+
+<h1>Data do not appear to be significant different because imputation uses mean for that particular day but steps are NA for that entire day.</h1>
+
+<h1>Are there differences in activity patterns between weekdays and weekends?</h1>
+
+<ol>
+<li>Add new factor variable dayType with 2 levels - &ldquo;weekday&rdquo; and &ldquo;weekend&rdquo;</li>
+</ol>
+
+<p>dayType &lt;- function(dates) {
+  f &lt;- function(date) {
+    if (weekdays(date) %in% c(&ldquo;Saturday&rdquo;, &ldquo;Sunday&rdquo;)) {
+      &ldquo;weekend&rdquo;
+    }
+    else {
+      &ldquo;weekday&rdquo;
+    }
+  }
+  sapply(dates, f)
 }</p>
+
+<p>activity$dayType &lt;- as.factor(dayType(activity$date))
+str(activity)</p>
+
+<ol>
+<li>Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekdays and weekends</li>
+</ol>
+
+<p>library(lattice)</p>
+
+<p>steps.interval &lt;- aggregate(steps ~ interval + dayType, activity, mean)
+xyplot(steps ~ interval | dayType, data=steps.interval, layout=c(2,1), type=&#39;l&#39;)</p>
 
 </body>
 
