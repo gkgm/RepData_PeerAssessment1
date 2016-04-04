@@ -34,7 +34,7 @@ head(steps.date)\
 2. Histogram of the total number of steps taken each day.\
 \
 barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), \
-        xlab="Date", ylab="No of Steps Per Day",)\
+        xlab="date", ylab="sum(steps)",)\
 \
 3.1. Mean of total number of steps taken per day\
 \
@@ -76,7 +76,7 @@ head(activity.clean)\
 \
 steps.date <- aggregate(steps ~ date, activity.clean, sum)\
 barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), \
-        xlab="date", ylab="Steps Per Day with missing data",)\
+        xlab="date", ylab="sum(steps)",)\
 \
 4.1. Mean of total number of steps taken per day\
 \
