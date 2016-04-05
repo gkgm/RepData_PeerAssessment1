@@ -3,6 +3,7 @@
 # Basic settings
 
 echo = TRUE  # Always make code visible
+
 options(scipen = 1)  # Turn off scientific notations for numbers
 
 # Loading and preprocessing the data
