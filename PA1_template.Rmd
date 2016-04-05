@@ -3,6 +3,7 @@
 # Basic settings
 
 echo = TRUE  # Always make code visible
+
 options(scipen = 1)  # Turn off scientific notations for numbers
 
 # Loading and preprocessing the data
@@ -42,6 +43,7 @@ median(steps.date$steps)
 1. Time series plot of the 5-minute interval and average number of steps taken averaged across all days
 
 steps.interval <- aggregate(steps ~ interval, activity, mean)
+
 plot(steps.interval, type='l')
 
 2.  The 5-minute interval contains the maximum number of steps
