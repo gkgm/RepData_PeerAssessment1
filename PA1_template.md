@@ -3,14 +3,17 @@
 # Basic settings
 
 echo = TRUE  # Always make code visible
+
 options(scipen = 1)  # Turn off scientific notations for numbers
 
 # Loading and preprocessing the data
 
 
-if (!file.exists("activity.csv")) {
+if (!file.exists("activity.csv")) 
+{
   unzip("activity.zip")
 }
+
 activity <- read.csv("activity.csv", colClass=c('integer', 'Date', 'integer'))
 
 
@@ -19,12 +22,12 @@ activity <- read.csv("activity.csv", colClass=c('integer', 'Date', 'integer'))
 1. The total number of steps taken per day.
 
 steps.date <- aggregate(steps ~ date, activity, sum)
+
 head(steps.date)
 
 2. Histogram of the total number of steps taken each day.
 
-barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), 
-        xlab="Date", ylab="No of Steps Per Day",)
+barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), xlab="Date", ylab="No of Steps Per Day",)
 
 3.1. Mean of total number of steps taken per day
 
@@ -40,6 +43,7 @@ median(steps.date$steps)
 1. Time series plot of the 5-minute interval and average number of steps taken averaged across all days
 
 steps.interval <- aggregate(steps ~ interval, activity, mean)
+
 plot(steps.interval, type='l')
 
 2.  The 5-minute interval contains the maximum number of steps
@@ -53,20 +57,24 @@ steps.interval$interval[which.max(steps.interval$steps)]
 
 sum(is.na(activity$steps))
 
-2. The strategy for filling in all of the missing values in the dataset is to use mean of the day. 
+2. The strategy for filling in all of the missing values in the dataset is to use mean of the day. Data do not appear to be significant different because imputation uses mean for that particular day but steps are NA for that entire day.
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 activity.clean <- merge(activity, steps.date, by="date", suffixes=c("", ".mean"))
+
 nas <- is.na(activity.clean$steps)
+
 activity.clean$steps[nas] <- activity.clean$steps.mean[nas]
+
 activity.clean <- activity.clean[, c(1:3)]
+
 head(activity.clean)
 
 4. Histogram of the total number of steps taken each day
 
 steps.date <- aggregate(steps ~ date, activity.clean, sum)
-barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), 
-        xlab="date", ylab="Steps Per Day with missing data",)
+
+barplot(steps.date$steps, names.arg=steps.date$date, ylim=c(0, 25000), xlab="date", ylab="Steps Per Day with missing data",)
 
 4.1. Mean of total number of steps taken per day
 
@@ -76,14 +84,13 @@ mean(steps.date$steps)
 
 median(steps.date$steps)
 
-# Data do not appear to be significant different because imputation uses mean for that particular day but steps are NA for that entire day.
-
 
 # Are there differences in activity patterns between weekdays and weekends?
 
 1. Add new factor variable dayType with 2 levels - "weekday" and "weekend"
 
-dayType <- function(dates) {
+dayType <- function(dates) 
+{
   f <- function(date) {
     if (weekdays(date) %in% c("Saturday", "Sunday")) {
       "weekend"
@@ -96,6 +103,7 @@ dayType <- function(dates) {
 }
 
 activity$dayType <- as.factor(dayType(activity$date))
+
 str(activity)
 
 2. Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekdays and weekends
@@ -103,4 +111,5 @@ str(activity)
 library(lattice)
 
 steps.interval <- aggregate(steps ~ interval + dayType, activity, mean)
+
 xyplot(steps ~ interval | dayType, data=steps.interval, layout=c(2,1), type='l')
