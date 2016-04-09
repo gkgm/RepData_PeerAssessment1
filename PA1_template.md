@@ -1,9 +1,6 @@
 # Reproducible Research: Peer Assessment 1
 
 
-```
-## Error in library(Hmisc): there is no package called 'Hmisc'
-```
 
 ## Loading and preprocessing the data
 ##### 1. Load the data (i.e. read.csv())
@@ -92,20 +89,12 @@ activityDataImputed <- activityData
 activityDataImputed$steps <- impute(activityData$steps, fun=mean)
 ```
 
-```
-## Error in eval(expr, envir, enclos): could not find function "impute"
-```
-
 
 ##### 4. Make a histogram of the total number of steps taken each day 
 
 ```r
 stepsByDayImputed <- tapply(activityDataImputed$steps, activityDataImputed$date, sum)
 qplot(stepsByDayImputed, xlab='Total steps per day (Imputed)', ylab='Frequency using binwith 500', binwidth=500)
-```
-
-```
-## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png)
@@ -116,8 +105,8 @@ qplot(stepsByDayImputed, xlab='Total steps per day (Imputed)', ylab='Frequency u
 stepsByDayMeanImputed <- mean(stepsByDayImputed)
 stepsByDayMedianImputed <- median(stepsByDayImputed)
 ```
-* Mean (Imputed): NA
-* Median (Imputed):  NA
+* Mean (Imputed): 1.0766189 &times; 10<sup>4</sup>
+* Median (Imputed):  1.0766189 &times; 10<sup>4</sup>
 
 
 ----
